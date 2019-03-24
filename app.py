@@ -9,6 +9,10 @@ app.config['MYSQL_DB'] = 'flask_app'
 
 mysql = MySQL(app)
 
+@app.context_processor
+def inject_built_in_function():
+    return dict(enumerate=enumerate,len=len)
+
 @app.route('/')
 def index():
     cur = mysql.connection.cursor()
@@ -16,10 +20,12 @@ def index():
     students = cur.fetchall()
     return render_template('students/index.html',students=students)
 
-@app.route('/delete')
+@app.route('/delete/<string:id>',methods=['GET'])
 def delete(id):
     cur = mysql.connection.cursor()
     cur.execute("delete from students where id=%s",(id))
+    mysql.connection.commit()
+    return redirect(url_for('index'))
 
 @app.route('/insert',methods=['POST'])
 def insert():
