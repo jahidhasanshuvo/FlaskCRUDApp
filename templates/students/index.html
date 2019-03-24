@@ -24,7 +24,7 @@
         <td>{{row.3}}</td>
         <td>
             <a href="#" class="btn btn-primary">Edit</a>
-            <a href="{{url_for('delete',id=row.0)}}" class="btn btn-danger" onclick="confirm('are you sure want to delete')">Delete</a>
+            <a href="{{url_for('delete',id=row.0)}}" class="btn btn-danger" onclick="return confirm('are you sure want to delete')">Delete</a>
         </td>
     </tr>
     {% endfor %}

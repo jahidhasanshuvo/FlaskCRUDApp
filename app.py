@@ -23,7 +23,7 @@ def index():
 @app.route('/delete/<string:id>',methods=['GET'])
 def delete(id):
     cur = mysql.connection.cursor()
-    cur.execute("delete from students where id=%s",(id))
+    cur.execute("delete from students where id=%s",(id,))
     mysql.connection.commit()
     return redirect(url_for('index'))
 
