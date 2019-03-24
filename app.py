@@ -1,11 +1,15 @@
-from flask import Flask,render_template,redirect,request,url_for
+from flask import Flask,render_template,redirect,request,url_for,flash
 from flask_mysqldb import MySQL
+from flask_toastr import Toastr
 
 app = Flask(__name__)
+toastr = Toastr(app)
+
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'ok'
 app.config['MYSQL_DB'] = 'flask_app'
+app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 mysql = MySQL(app)
 
@@ -31,6 +35,7 @@ def insert():
         cur.execute("INSERT INTO students (name,email,phone) VALUES (%s, %s,%s)",(name,email,phone))
 
         mysql.connection.commit()
+        flash("Data Inserted Successfully", 'success')
         return redirect(url_for('index'))
 
 @app.route('/delete/<string:id>',methods=['GET'])
@@ -38,6 +43,8 @@ def delete(id):
     cur = mysql.connection.cursor()
     cur.execute("delete from students where id=%s",(id,))
     mysql.connection.commit()
+    flash("Data Deleted Successfully", 'success')
+
     return redirect(url_for('index'))
 
 
@@ -51,6 +58,8 @@ def update(id):
         cur = mysql.connection.cursor()
         cur.execute("update students set name = %s,email = %s,phone = %s where id=%s",(name,email,phone,id))
         mysql.connection.commit()
+        flash("Data Updated Successfully", 'success')
+
         return redirect(url_for('index'))
 
 
