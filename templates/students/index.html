@@ -1,0 +1,38 @@
+{% extends "layouts.html" %}
+
+{% block content %}
+
+<!-- Modal -->
+<h2>Student Page
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add Student</button>
+</h2>
+<!--Modal Form-->
+{% include 'students/modalForm.html' %}
+
+<table class="table table-striped table-hover">
+    <thead>
+    <th>Sl.</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Action</th>
+    </thead>
+    <tbody>
+    {% for row in students%}
+    <tr>
+        <td>{{row.0}}</td>
+        <td>{{row.1}}</td>
+        <td>{{row.2}}</td>
+        <td>{{row.3}}</td>
+        <td>
+            <a href="#" class="btn btn-primary">Edit</a>
+            <a href="{{url_for('delete')}}" class="btn btn-danger" onclick="confirm('are you sure want to delete')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
